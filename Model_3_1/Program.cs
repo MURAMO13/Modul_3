@@ -3,15 +3,11 @@ class Program
 {
     static void Main()
     {
-        string MyName = "Jane";
-        byte MyAge = 27;
-        bool HaveIApet = true;
-        double MyShoeSize = 37.5;
+        Semaphore empty = Semaphore.Green;
+        Console.WriteLine( (int) empty );
 
-        Console.WriteLine("My name is " + MyName);
-        Console.WriteLine("MyAge " + MyAge);
-        Console.WriteLine("Do I have a pet? " + HaveIApet);
-        Console.WriteLine("My shoe size is " + MyShoeSize);
+
+        Console.ReadKey();
 
     }
 }
