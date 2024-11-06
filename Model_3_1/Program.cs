@@ -3,19 +3,32 @@ class Program
 {
     static void Main()
     {
-        Console.Write( "Введите имя: " );
-        var name = Console.ReadLine();
+        Console.WriteLine("Напишите свой любимый цвет на английском с маленькой буквы");
 
-        Console.Write( "Введите возраст: " );
-        var age = Convert.ToInt32( Console.ReadLine() );
+        var color = Console.ReadLine();
 
-        Console.WriteLine( $"Ваше имя: {name} и вам {age} лет!" );
+        if (color == "red")
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
 
-        Console.Write("Когда вы родились? ");
-        var born_date = Console.ReadLine();
+            Console.WriteLine("Your color is red!");
+        }
 
-        Console.WriteLine( $"Ваш день рождения: {born_date}" );
-        
+        else if (color == "green")
+        {
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Black;
+
+            Console.WriteLine("Your color is green!");
+        }
+        else
+        {
+            Console.BackgroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.Black;
+
+            Console.WriteLine("Your color is cyan!");
+        }
 
 
 
