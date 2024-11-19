@@ -3,28 +3,15 @@ class Program
 {
     static void Main()
     {
+        Console.WriteLine("Введите своё имя:");
+        var name = Console.ReadLine();
 
-        int sum = 0;
-
-        while (true)
+        foreach (var item in name)
         {
-            Console.WriteLine("Введите число");
-            var number = Convert.ToInt32(Console.ReadLine());
-
-            if (number < 0)
-            {
-                continue;
-            }
-            else if (number == 0)
-            {
-                break;
-            }
-
-            // number > 0
-            sum += number;
+            Console.Write(item + " ");
         }
 
-        Console.WriteLine("Итоговая сумма: {0}", sum);
+        Console.Write("Последная буква вашего имени:" + name[name.Length-1]);
 
 
 
