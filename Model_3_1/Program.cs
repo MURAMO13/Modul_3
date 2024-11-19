@@ -6,10 +6,12 @@ class Program
         Console.WriteLine("Введите своё имя:");
         var name = Console.ReadLine();
 
-        foreach (var item in name)
+        for (int i = name.Length - 1; i > -1 ; i--) 
         {
-            Console.Write(item + " ");
+            Console.Write(name[i] + " ");
         }
+
+       
 
         Console.Write("Последная буква вашего имени:" + name[name.Length-1]);
 
