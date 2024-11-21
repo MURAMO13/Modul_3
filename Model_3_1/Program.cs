@@ -5,20 +5,27 @@ class Program
 {
     static void Main()
     {
-        int[][] array = new int[3][];
-        array[0] = new int[2] { 1, 2 };
-        array[1] = new int[3] { 1, 2, 3 };
-        array[2] = new int[5] { 1, 2, 3, 4, 5 };
+        int[,] arr = { { -5, 6, 9, 1, 2, -3 }, { -8, 8, 1, 1, 2, -3 } };
 
-        foreach (int [] i in array) 
+
+        int negative = 0, 
+            positive = 0;
+
+        foreach (var i in arr)
         {
-            foreach (int j in i)
+            
+            if ( i > 0) 
             {
-                Console.Write(j+"  ");
+                positive++;
             }
-            Console.WriteLine();
-
-        }  
+            else if (i < 0)
+            {
+                negative++;
+            }
+        }
+        Console.WriteLine(negative);
+        Console.WriteLine(positive);
+       
 
 
 
