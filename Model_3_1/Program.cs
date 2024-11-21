@@ -5,30 +5,31 @@ class Program
 {
     static void Main()
     {
-        int[,] array = { { 1, 2, 3 }, { 5, 6, 7 }, { 8, 9, 10 }, { 11, 12, 13 } };
-
-        var l1 = array.GetUpperBound(0) + 1;
-        var l2 = array.GetUpperBound(1) + 1;
-
-        for (int i = 0; i < l2; i++)
+        var arr = new int[] { 5, -88, 9, 0, 2, 3, 4 };
+        var sum = 0;
+        foreach (int i in arr) 
         {
-            
-            for (int k = 0 ; k < l1; k++ )
-                Console.Write(array[k, i] + " ");
-
-            
-
-            Console.WriteLine();
+            sum += i;
+            Console.WriteLine(sum);
         }
+
+
+
 
 
         Console.ReadKey();
     }
 
 
-
-
-    public void cw(string some) { Console.WriteLine(some); }
+   
+    static void forich_show(int[]arrt) 
+    {
+        foreach (var item in arrt)
+        {
+            Console.Write(item + " ");
+        }
+        Console.WriteLine();
+    }
 
 }
 
