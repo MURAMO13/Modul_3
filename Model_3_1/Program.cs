@@ -7,23 +7,59 @@ class Program
 {
     static void Main()
     {
-        //// Создаём кортеж
-        //(string Name, string Type, double Age) Pet = ("Барсик", "Кошка", 2.5);
+        (string Name, string LastName, string Login, int LoginLenght, bool HasPet, double Age, string[] FavColor)[] Users = new (string, string, string, int, bool, double, string[])[3];
 
-        //// Получаем тип кортежа
-        //Type tupleType = Pet.GetType();
 
-        //// Перебираем все поля кортежа
-        //foreach (var field in tupleType.GetFields(BindingFlags.Instance | BindingFlags.Public))
-        //{
-        //    // Выводим имя поля и его значение
-        //    Console.WriteLine($"{field.Name}: {field.GetValue(Pet)}");
-        //}
+        for (int h = 0; h < Users.Length; h++)
+        {
+            Console.WriteLine($"User: {h + 1}");
 
-        Random random = new Random();
-        byte[] buffer = new byte[5];
-        random.NextBytes(buffer); // Заполнит массив случайными байтами
-        Console.WriteLine(string.Join(", ", buffer));
+            (string Name, string LastName, string Login, int LoginLenght, bool HasPet, double Age, string[] FavColor) User;
+
+
+            Console.WriteLine("Enter your name:");
+            User.Name = Console.ReadLine();
+
+            Console.WriteLine("Enter your last name:");
+            User.LastName = Console.ReadLine();
+
+            Console.WriteLine("Enter your username:");
+            User.Login = Console.ReadLine();
+
+            User.LoginLenght = User.Login.Length;
+
+            Console.WriteLine("Do you have any animals? Yes or No");
+            User.HasPet = Console.ReadLine()?.ToLower() == "yes";//? true : false; 
+
+            Console.WriteLine("Enter your age:");
+            User.Age = double.TryParse(Console.ReadLine(), out double age) ? age : 0;
+
+            Console.WriteLine("Enter your three favorite colors:");
+            User.FavColor = new string[3];
+
+            for (int i = 0; i < User.FavColor.Length; i++)
+            {
+                Console.Write($"{i + 1}.  ");
+                User.FavColor[i] = Console.ReadLine();
+            }
+
+            Users[h] = User;
+        }
+
+        for (int h = 0; h < Users.Length; h++)
+        {
+            Console.WriteLine($"User {h + 1}:");
+            var user = Users[h];
+            Console.WriteLine($"Name: {user.Name}");
+            Console.WriteLine($"Last Name: {user.LastName}");
+            Console.WriteLine($"Username: {user.Login}");
+            Console.WriteLine($"Login Length: {user.LoginLenght}");
+            Console.WriteLine($"Has Pet: {user.HasPet}");
+            Console.WriteLine($"Age: {user.Age}");
+            Console.WriteLine("Favorite Colors: " + string.Join(", ", user.FavColor));
+        }
+
+
 
 
 
