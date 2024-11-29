@@ -8,10 +8,10 @@ class Program
     static void Main()
     {
 
-        var ArrToSort = GetArrayFromConsole();
-        var SortedArr = SortArr(ArrToSort);
+        //var ArrToSort = GetArrayFromConsole();
+        var SortedArr = (new int[5] {-4,0,44,8,-999 });
 
-
+        ShowArray(SortedArr,true);
 
         Console.ReadKey();
     }
@@ -33,9 +33,11 @@ class Program
 
     static int[] SortArr( int[] array)
     {
+
         for (int i = 0; i < array.Length - 1; i++) // Внешний цикл
         {
-            for (int j = 0; j < array.Length - i - 1; j++) // Внутренний цикл
+            var JTemp = array.Length - i - 1;
+            for (int j = 0; j < JTemp; j++) // Внутренний цикл
             {
                 if (array[j] > array[j + 1]) // Сравнение соседних элементов
                 {
@@ -44,12 +46,8 @@ class Program
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
 
-                    // Отладочный вывод
-                    foreach (var item in array)
-                    {
-                        Console.Write(item + "  ");
-                    }
-                    Console.WriteLine();
+                    
+                  
                 }
             }
         }
@@ -57,7 +55,19 @@ class Program
         return array;
     }
 
+    static int[] ShowArray(int[] ArrInt, bool SortPoint = false) 
+    {
+        if (SortPoint) 
+        {
+            ArrInt = SortArr(ArrInt);
+        }
+        foreach (int i in ArrInt)
+        {
+            Console.WriteLine(i);
+        }
 
+        return ArrInt;
+    }
 
 
 }
