@@ -23,6 +23,8 @@ class Program
     {
         if (depht > 0)
         {
+            var int6 = (depht % 16);
+            Console.BackgroundColor = (ConsoleColor)(int6);
             Console.WriteLine("  >>>" + text);
             EchoTextMethod(text.Remove(0, 1), depht - 1);
         }
