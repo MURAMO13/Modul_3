@@ -7,58 +7,26 @@ class Program
 {
     static void Main()
     {
-        int[] ArrayMain = { 1, 2, -2, 8, 0, 100, -100 };
-        int[] ArrByDesc; // По убыванию
-        int[] ArrByAsc; // По возрастанию
+        Console.WriteLine(" Enter somethring ");
+        var EchoText = Console.ReadLine();
 
-        SortArray(ArrayMain, out ArrByDesc, out ArrByAsc);
-        Console.WriteLine( string.Join("  ", ArrByDesc) );
-        Console.WriteLine( string.Join("  ",ArrByAsc) );
+        var DepthInt = EchoText.Length;
+
+        EchoTextMethod(EchoText, DepthInt);
+
+
+
         Console.ReadKey();
     }
-    static void SortArray( int[]arrayMain, out int[] arrbydecs, out int[] arrbyasc) 
-    {
-        arrbydecs = SortArrayDesc((int[]) arrayMain.Clone());
-        arrbyasc = SortArrayAsc((int[])arrayMain.Clone());
 
-    }
-    static int[] SortArrayAsc(int[] arr ) 
+    static void EchoTextMethod(string text, int depht)
     {
-        for (int i = 0;i< arr.Length - 1; ++i) 
+        if (depht > 0)
         {
-            for (int j = 0; j < arr.Length - 1 - i; ++j)
-            {
-                if (arr[j] > arr[j+1])
-                {
-                    var temp = arr[j];
-                    arr[j] = arr[j+1]; 
-                    arr[j+1] = temp;
-                }
-            }
-
+            Console.WriteLine("  >>>" + text);
+            EchoTextMethod(text.Remove(0, 1), depht - 1);
         }
-        return arr;
     }
-
-    static int[] SortArrayDesc(int[] arr)
-    {
-        for (int i = 0; i < arr.Length - 1; ++i)
-        {
-            for (int j = 0; j < arr.Length - 1 - i; ++j)
-            {
-                if (arr[j] < arr[j + 1])
-                {
-                    var temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-
-        }
-        return arr;
-    }
-
-
 
 }
 
