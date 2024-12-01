@@ -7,67 +7,57 @@ class Program
 {
     static void Main()
     {
+        int[] ArrayMain = { 1, 2, -2, 8, 0, 100, -100 };
+        int[] ArrByDesc; // По убыванию
+        int[] ArrByAsc; // По возрастанию
 
-        //var ArrToSort = GetArrayFromConsole();
-        var SortedArr = (new int[5] {-4,0,44,8,-999 });
-
-        ShowArray(SortedArr,true);
-
+        SortArray(ArrayMain, out ArrByDesc, out ArrByAsc);
+        Console.WriteLine( string.Join("  ", ArrByDesc) );
+        Console.WriteLine( string.Join("  ",ArrByAsc) );
         Console.ReadKey();
     }
-
-    static int[] GetArrayFromConsole()
+    static void SortArray( int[]arrayMain, out int[] arrbydecs, out int[] arrbyasc) 
     {
-        var result = new int[5];
+        arrbydecs = SortArrayDesc((int[]) arrayMain.Clone());
+        arrbyasc = SortArrayAsc((int[])arrayMain.Clone());
 
-        for (int i = 0; i < result.Length; i++)
-        {
-            Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-
-
-            result[i] = int.Parse(Console.ReadLine());
-        }
-
-        return result;
     }
-
-    static int[] SortArr( int[] array)
+    static int[] SortArrayAsc(int[] arr ) 
     {
-
-        for (int i = 0; i < array.Length - 1; i++) // Внешний цикл
+        for (int i = 0;i< arr.Length - 1; ++i) 
         {
-            var JTemp = array.Length - i - 1;
-            for (int j = 0; j < JTemp; j++) // Внутренний цикл
+            for (int j = 0; j < arr.Length - 1 - i; ++j)
             {
-                if (array[j] > array[j + 1]) // Сравнение соседних элементов
+                if (arr[j] > arr[j+1])
                 {
-                    // Обмен элементов
-                    int temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-
-                    
-                  
+                    var temp = arr[j];
+                    arr[j] = arr[j+1]; 
+                    arr[j+1] = temp;
                 }
             }
-        }
 
-        return array;
+        }
+        return arr;
     }
 
-    static int[] ShowArray(int[] ArrInt, bool SortPoint = false) 
+    static int[] SortArrayDesc(int[] arr)
     {
-        if (SortPoint) 
+        for (int i = 0; i < arr.Length - 1; ++i)
         {
-            ArrInt = SortArr(ArrInt);
-        }
-        foreach (int i in ArrInt)
-        {
-            Console.WriteLine(i);
-        }
+            for (int j = 0; j < arr.Length - 1 - i; ++j)
+            {
+                if (arr[j] < arr[j + 1])
+                {
+                    var temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
 
-        return ArrInt;
+        }
+        return arr;
     }
+
 
 
 }
