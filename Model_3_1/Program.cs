@@ -1,127 +1,116 @@
-﻿
-
-namespace Model_3_1;
+﻿namespace Model_3_1;
 class Program
 {
     static void Main()
     {
-
-        var User = GetInfoUser();
-
-        WatchUser(User);
-
-
-
-        Console.ReadKey();
-    }
-    static (string FirstName, string LastName, int age, bool HasPet, string[] PetsArrName, string[] FavArrCol) GetInfoUser()
-    {
-
-        (string FirstName, string LastName, int age, bool HasPet, string[] PetsArrName, string[] FavArrCol) user;
-        Console.WriteLine("What is your name?");
-        user.FirstName = Console.ReadLine();
-
-        Console.WriteLine("What is your last name?");
-        user.LastName = Console.ReadLine();
-
-        Console.WriteLine("How old are you?");
-        user.age = CorrectInt();
-
-        Console.WriteLine("Do you have pets? \n Yes or No.");
-        user.HasPet = CorectBool();
-        if (user.HasPet)
-        {
-            Console.WriteLine("How many pets do you have?");
-            user.PetsArrName = FillArrs(new string[CorrectInt()]);
-        }
-        else
-        {
-            user.PetsArrName = Array.Empty<string>();
-        }
-
-        Console.WriteLine("How many favorite colors do you have?");
-        user.FavArrCol = FillArrs(new string[CorrectInt()]);
-
-        return user;
-    }
-
-    static bool CorectBool()
-    {
-        string input = Console.ReadLine().ToLower();
-        if (input == "yes")
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    static int CorrectInt()
-    {
-        int NaturelNum;
-
         while (true)
         {
-            var input = Console.ReadLine();
-            if (int.TryParse(input, out NaturelNum) && NaturelNum > 0)
-            {
-                return NaturelNum;
-            }
-            else
-            {
-                Console.WriteLine("Try again! \n And enter correct number");
-            }
+            var temp =int.Parse( Console.ReadLine() );
+            Console.WriteLine( temp.GetNegative() );
+            Console.WriteLine( temp.GetPositive() );
         }
-
-    }
-
-    static string[] FillArrs(string[] arrToFill)
-    {
-        for (int i = 0; i < arrToFill.Length; ++i)
-        {
-            Console.WriteLine($"Enter {i+1} item: ");
-            arrToFill[i] = Console.ReadLine();
-        }
-        return arrToFill;
-    }
-
-    static void WatchUser((string FirstName, string LastName, int age, bool HasPet, string[] PetsArrName, string[] FavArrCol) user) 
-    {
-        Console.WriteLine($"User name: {user.FirstName}");
-        Console.WriteLine($"User last name:{user.LastName}");
-        Console.WriteLine($"User age:{user.age}");
-      
-        if (user.HasPet && user.PetsArrName.Length > 0)
-        {
-            Console.WriteLine("Pets: ");
-            foreach (var item in user.PetsArrName)
-            {
-                Console.WriteLine($"\t {item}");
-            }
-        }
-        else 
-        {
-            Console.WriteLine("You have not pets!");
-        }
-
-        if (user.FavArrCol.Length > 0)
-        {
-            Console.WriteLine("Your favorite colors");
-            foreach (var item in user.FavArrCol)
-            {
-                Console.WriteLine($"\t {item}");
-            }
-        }
-        else
-        {
-            Console.WriteLine("The user has not listed any favorite colors.");
-        }
+       
     }
 
 }
 
+class BaseClass
+{
+    protected string Name;
 
+    public BaseClass(string name) 
+    {
+        Name = name;
+    }
 
+   protected virtual void Display()
+   {
+        Console.WriteLine("Hello from BaseClass");  
+   }
+
+    protected virtual int Counter { get; set; }
+}
+
+class DerivedClass : BaseClass
+{
+    public string Description;
+
+    public int counter;
+    public DerivedClass (string name, string description) : base(name)
+    {
+        Description = description;
+    }
+
+    public DerivedClass(string name, string description, int counter) : this(name, description)
+    {
+        Counter = counter;
+    }
+
+    protected override void Display()
+    {
+        Console.WriteLine("Hello from DerivedClass");
+    }
+
+    
+    protected override int Counter 
+    { 
+        get => counter ;
+        set 
+        {
+            if (value >= 0)
+            {
+                Counter = value;
+
+            }
+            else { Console.WriteLine(" U input wrong int"); }
+        } 
+    }
+}
+
+class Ob 
+{
+    public int Value;
+
+    public static Ob operator + (Ob a, Ob b) 
+    {
+        return new Ob {Value = a.Value + b.Value };
+    }
+
+}
+
+class HelloIndex
+{
+    public int[] arr;
+    public HelloIndex(int[] arr)
+    {
+        this.arr = arr;
+    }
+
+    public int this[int v] 
+    {
+        get
+        {
+            return arr[v];
+        }
+        set 
+        {
+            arr[v] = value;
+        }
+    }
+}
+
+static class newint
+{
+    public static int GetNegative(this int source) 
+    {
+        return source <= 0 ? source  : -source;
+
+    }
+
+    public static int GetPositive(this int source)
+    {
+        return source >= 0 ? source : -source;
+
+    }
+}
 
