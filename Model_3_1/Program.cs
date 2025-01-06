@@ -15,19 +15,17 @@ namespace Model_3_1
         OneDay,
         Usual
     }
-
-    public static class Extensions
+    internal static class Extensions
     {
-        public static bool IsExpress(this DeliveryType deliveryType)
+        internal static bool IsExpress(this Delivery delivery)
         {
-            return DeliveryType.OneDay == deliveryType;
+            return delivery.DeliveryType == DeliveryType.OneDay;
         }
     }
-
     abstract class Delivery 
     {
         public static int TotalDelivery = 0;
-        public Basket<Article> Basket { get; private set; }
+        public Basket<Article> Basket { get; protected set; }
         public CourierCompany Company { get; private set; }
         public DeliveryType DeliveryType { get; private set; }
         public string Address { get; private set; }
@@ -40,11 +38,8 @@ namespace Model_3_1
             DeliveryType = deliveryType;
             ++TotalDelivery;
         }
-
-       
-
+        
         public abstract void ShowInfoDelivery();
-
     }
     class HomeDelivery : Delivery
     {
@@ -120,7 +115,7 @@ namespace Model_3_1
             ShopAddress = shopAddress;
         }
     }
-    class Basket<TArticle>
+    class Basket<TArticle> where TArticle : Article 
     {
         private static int _basketCounter = 0;
         public int Id { get; private set; }
@@ -161,20 +156,28 @@ namespace Model_3_1
         }
 
     }
-
     class OfflineBasket<TOfflineArticle> : Basket<TOfflineArticle> where TOfflineArticle : OfflineArticle
     {
         
     }
 
-
-
-
     class Program
     {
         static void Main()
         {
-          
+            Article buckwheat = new( "Buckwheat", 001, 59 );
+            Article potato = new( "Potato", 002, 39 );
+
+            Basket<Article> basket_1 = new();
+            basket_1.AddArticle( buckwheat );
+            basket_1.AddArticle( potato );
+
+            HomeDelivery homeDelivery_1 = new(DateTime.Now.AddDays(1) ,basket_1,"Moscow, street zelen, 1/1", CourierCompany.ExpressPony, DeliveryType.OneDay );
+
+            Article item = homeDelivery_1.Basket[0];
+            bool urgency = homeDelivery_1.IsExpress();
+
+            homeDelivery_1.ShowInfoDelivery();
         }
     }
 }
