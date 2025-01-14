@@ -2,183 +2,73 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Model_3_1
+namespace Model
 {
-    public enum CourierCompany
-    {
-        DHL,
-        AmazonPrime,
-        ExpressPony
-    }
-    public enum DeliveryType
-    {
-        OneDay,
-        Usual
-    }
-    internal static class Extensions
-    {
-        internal static bool IsExpress(this Delivery delivery)
-        {
-            return delivery.DeliveryType == DeliveryType.OneDay;
-        }
-    }
-    abstract class Delivery 
-    {
-        public static int TotalDelivery = 0;
-        public Basket<Article> Basket { get; protected set; }
-        public CourierCompany Company { get; private set; }
-        public DeliveryType DeliveryType { get; private set; }
-        public string Address { get; private set; }
-
-        protected Delivery( Basket<Article> basket, string address, CourierCompany company, DeliveryType deliveryType)
-        {
-            Basket = basket;
-            Address = address;
-            Company = company;
-            DeliveryType = deliveryType;
-            ++TotalDelivery;
-        }
-        
-        public abstract void ShowInfoDelivery();
-    }
-    class HomeDelivery : Delivery
-    {
-        public DateTime DeliveryTime;
-
-        public HomeDelivery(DateTime deliveryTime, Basket<Article> basket, string address, CourierCompany company, DeliveryType deliveryType) : base(basket, address, company, deliveryType)
-        {
-            DeliveryTime = deliveryTime;
-            
-        }
-
-        public override void ShowInfoDelivery()
-        {
-            Console.WriteLine( $"Home Delivery to {Address} at {DeliveryTime}.\n " +
-                $"Busket:{Basket.GetArticles()}\n" +
-                $"Delivery company:{Company}\n" +
-                $"Delivery type: {DeliveryType} " +
-                $"Price:{Basket.GetTotalPrice()}" );
-        }
-    }
-    class ShopDelivery : Delivery
-    {
-        public DateTime PickUpTime;
-
-        public ShopDelivery(DateTime pickUpTime, Basket<Article> basket, string address, CourierCompany company, DeliveryType deliveryType) : base(basket, address, company, deliveryType)
-        {
-            PickUpTime = pickUpTime;
-        }
-        public override void ShowInfoDelivery()
-        {
-            Console.WriteLine($"Shop Delivery to {Address} at {PickUpTime}.\n " +
-                $"Busket:{Basket.GetArticles()}\n" +
-                $"Delivery company:{Company}\n" +
-                $"Delivery type: {DeliveryType} " +
-                $"Price:{Basket.GetTotalPrice()}");
-        }
-    }
-    class PickPointDelivery : Delivery
-    {
-        public DateTime PickUpTime;
-
-        public PickPointDelivery(DateTime pickUpTime, Basket<Article> basket, string address, CourierCompany company, DeliveryType deliveryType) : base(basket, address, company, deliveryType)
-        {
-            PickUpTime = pickUpTime;
-        }
-        public override void ShowInfoDelivery()
-        {
-            Console.WriteLine($"Shop Delivery to {Address} at {PickUpTime}.\n " +
-                $"Busket:{Basket.GetArticles()}\n" +
-                $"Delivery company:{Company}\n" +
-                $"Delivery type: {DeliveryType}" +
-                $"Price:{Basket.GetTotalPrice()}");
-        }
-    }
-    class Article 
-    {
-        public string Title { get; private set; }
-        public int Id { get; private set; }
-        public decimal Price { get; private set; }
-
-        public Article(string Title, int Id, decimal Price) 
-        {
-            this.Title = Title;
-            this.Id = Id;
-            this.Price = Price;
-        }
-    }
-    class OfflineArticle : Article
-    {
-        private string ShopAddress { get; set; }
-        public OfflineArticle(string Title, int Id, decimal Price, string shopAddress) : base(Title, Id, Price)
-        {
-            ShopAddress = shopAddress;
-        }
-    }
-    class Basket<TArticle> where TArticle : Article 
-    {
-        private static int _basketCounter = 0;
-        public int Id { get; private set; }
-
-        private List<TArticle> _articles = new();
-
-        public void AddArticle(TArticle article)
-        {
-            _articles.Add(article);
-        }
-
-        public string GetArticles()
-        {
-            return string.Join(", ", _articles.Select(a => a.Title));
-        }
-
-        public decimal GetTotalPrice()
-        {
-            decimal total = 0;
-
-            foreach (TArticle article in _articles)
-            {
-                total += article.Price;
-            }
-            return total;
-
-        }
-
-        public Basket()
-        {
-            Id = ++_basketCounter;
-        }
-
-        public TArticle this[int index]
-        {
-            get { return _articles[index]; }
-            set { _articles[index] = value; }
-        }
-
-    }
-    class OfflineBasket<TOfflineArticle> : Basket<TOfflineArticle> where TOfflineArticle : OfflineArticle
-    {
-        
-    }
+    delegate void TypeOfSort();
+    
 
     class Program
     {
+        public static event TypeOfSort SortAY;
+        public static event TypeOfSort SortYA;
+
+        public static bool EventInvoked;
+
         static void Main()
         {
-            Article buckwheat = new( "Buckwheat", 001, 59 );
-            Article potato = new( "Potato", 002, 39 );
+            int SortNum = 0;
 
-            Basket<Article> basket_1 = new();
-            basket_1.AddArticle( buckwheat );
-            basket_1.AddArticle( potato );
+            SortAY += SurnameArr.SortAY;
+            SortYA += SurnameArr.SortYA;
 
-            HomeDelivery homeDelivery_1 = new(DateTime.Now.AddDays(1) ,basket_1,"Moscow, street zelen, 1/1", CourierCompany.ExpressPony, DeliveryType.OneDay );
+            Dictionary<int,TypeOfSort> typeOfSortsD = new Dictionary<int, TypeOfSort> { { 1,SortAY },{ 2,SortYA } };
 
-            Article item = homeDelivery_1.Basket[0];
-            bool urgency = homeDelivery_1.IsExpress();
+            SurnameArr.PrintInConsole();
 
-            homeDelivery_1.ShowInfoDelivery();
+            Console.WriteLine();
+            Console.WriteLine("Enter number for sort the list of surname: \n 1 - [А-Я] \n 2 - [Я-А] \n");
+            
+            while (!EventInvoked) 
+            {
+                try
+                {
+                    SortNum = Convert.ToInt32(Console.ReadLine());
+
+                    typeOfSortsD[SortNum].Invoke();
+
+                    //if (SortNum == 1) { SurnameArr.SortAY(); }
+                    //else if (SortNum == 2) { SurnameArr.SortYA(); }
+                    //else { Console.WriteLine("\nEnter number again for sort the list of surname: \n 1 - [А-Я] \n 2 - [Я-А] \n"); }
+                }
+              
+                catch (Exception ex)
+                {
+                    Exception? matchedException = Array.Find(Exceptions.exceptions, e => e.GetType() == ex.GetType());
+
+                    if (matchedException != null)
+                    {
+                        Console.WriteLine($"Стандартное исключени найдено:{ex.Message} ");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Пользовательское мсключение:{ex.GetType().Name}.\n Сообщение: {ex.Message}");
+                    }
+
+                    //Console.WriteLine("\nEnter number again for sort the list of surname: \n 1 - [А-Я] \n 2 - [Я-А] \n");
+                    //Console.WriteLine(ex.ToString());
+                }
+            }
+
+            Console.WriteLine();
+
+            Exceptions.PrintAllExc();
+
+            Console.ReadLine();
         }
+
+        
     }
+
+     
 }
 
